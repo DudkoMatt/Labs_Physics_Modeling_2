@@ -182,7 +182,8 @@ class Particle {
     // Заряд
     Q = 0;
 
-    constructor(x=0, y=0, v=0, q=0, vector=new Vector(1, 0)) {
+    constructor(x=0, y=0, v=1, q=0, vector=new Vector(1, 0)) {
+        if (v === 0) throw new Error("Particle: Velocity is 0");
         this.X = x;
         this.Y = y;
         this.Velocity = v;

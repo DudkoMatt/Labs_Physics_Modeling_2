@@ -29,7 +29,8 @@
             init_coordinate_x = SPACER;
             init_coordinate_y = canvas.height - SPACER;
 
-            raf = window.requestAnimationFrame(redraw_window_function);
+            // raf = window.requestAnimationFrame(redraw_window_function);
+            redraw_window_function();
         }
 
         // function draw_axis() {
@@ -62,7 +63,15 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.restore();
         }
-        
+
+        // Считаем, что поле начинается с середины экрана (с середины ширины)
+        function draw_area_electric_field() {
+            ctx.save();
+            ctx.fillStyle = "rgba(125,255,125,0.5)";
+            ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
+            ctx.restore();
+        }
+
         function redraw_all_objects() {
             for (let i = 0; i < array_of_objects.length; i++) {
                 array_of_objects[i].draw();
@@ -71,37 +80,45 @@
 
         function add_new_object() {
             array_of_objects.push(new Particle(getRandomInt(canvas.width), getRandomInt(canvas.height)));
+            redraw_window_function();
         }
 
-        function create_particle_and_animate(vel = 1) {
+        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 1) {
             // ToDO: удалить t
             let t = 0;
             let p = new Particle(1, 2, vel, 4);
-            p.Velocity_Vector = (new Vector(1,1)).normalize();
+            p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
             array_of_objects.push(p);
+
+            let raf_id;
 
             function next_step() {
                 if (t < 1000 && p.in_view()) {
                     console.log(t + ": " + p.in_view());
                     p.calc_new_pos_without_acceleration(1);
                     t++;
-                    clear_all();
-                    redraw_all_objects();
 
-                    window.requestAnimationFrame(next_step);
+                    redraw_window_function();
+
+                    // clear_all();
+                    // redraw_all_objects();
+
+                    raf_id = window.requestAnimationFrame(next_step);
                 } else {
                     console.log(t + ": " + p.in_view());
+                    window.cancelAnimationFrame(raf_id);
                 }
             }
 
-            window.requestAnimationFrame(next_step);
+            raf_id = window.requestAnimationFrame(next_step);
 
         }
         
         function redraw_window_function() {
             clear_all();
+            draw_area_electric_field();
             redraw_all_objects();
-            window.requestAnimationFrame(redraw_window_function);
+            // window.requestAnimationFrame(redraw_window_function);
         }
 
     </script>
