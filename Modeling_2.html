@@ -14,7 +14,6 @@
     <script src="Particle.js"></script>
     <script type="text/javascript">
         let canvas, ctx;
-        let raf;
 
         // Note: ось y направлена вниз в canvas
         let init_coordinate_x, init_coordinate_y;
@@ -28,8 +27,6 @@
             ctx    = canvas.getContext('2d');
             init_coordinate_x = SPACER;
             init_coordinate_y = canvas.height - SPACER;
-
-            // raf = window.requestAnimationFrame(redraw_window_function);
             redraw_window_function();
         }
 
@@ -46,17 +43,6 @@
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
         }
-
-        // function draw_circle(x, y) {
-        //     ctx.beginPath();
-        //     ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
-        //     ctx.stroke();
-        // }
-
-        // function sleep(delay) {
-        //     let start = new Date().getTime();
-        //     while (new Date().getTime() < start + delay) {}
-        // }
         
         function clear_all() {
             ctx.save();
@@ -84,7 +70,7 @@
         }
 
         function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 1) {
-            // ToDO: удалить t
+            // Переменная для ограничения максимально возможного рендеринга
             let t = 0;
             let p = new Particle(1, 2, vel, 4);
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
@@ -93,16 +79,11 @@
             let raf_id;
 
             function next_step() {
-                if (t < 1000 && p.in_view()) {
+                if (t < 10000 && p.in_view()) {
                     console.log(t + ": " + p.in_view());
                     p.calc_new_pos_without_acceleration(1);
                     t++;
-
                     redraw_window_function();
-
-                    // clear_all();
-                    // redraw_all_objects();
-
                     raf_id = window.requestAnimationFrame(next_step);
                 } else {
                     console.log(t + ": " + p.in_view());
@@ -118,7 +99,6 @@
             clear_all();
             draw_area_electric_field();
             redraw_all_objects();
-            // window.requestAnimationFrame(redraw_window_function);
         }
 
     </script>

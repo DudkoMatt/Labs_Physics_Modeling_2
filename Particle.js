@@ -1,31 +1,3 @@
-/*
-// Моя попытка написать класс
-
-class Vector {
-    // Только направление
-    X = 0;
-    Y = 0;
-
-    // Значение == модуль
-    V = 0;
-
-    constructor(x, y, v) {
-        this.X = x;
-        this.Y = y;
-        this.V = v;
-    }
-
-    operator_plus(other) {
-        if (typeof this !== typeof other) {
-            console.log("This should never happen: vector + not a vector");
-            throw new Error("Vector: Trying to add not a vector");
-        }
-
-
-    }
-}
-*/
-
 // Взято с: https://gist.github.com/winduptoy/a1aa09c3499e09edbd33
 // Нужен только для определения направления
 // ToDO: руками поддерживать единичную длину
