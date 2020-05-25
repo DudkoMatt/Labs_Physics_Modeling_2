@@ -76,8 +76,9 @@
             }
         }
 
+        // ToDO: debug
         // ToDO: поле направлено вертикально
-        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 0, init_x = 0, init_y = canvas.height / 2) {
+        function create_particle_and_animate_console(vel = 1, x_dir = 1, y_dir = 0, init_x = 0, init_y = canvas.height / 2) {
             // ToDO:
             let q = 1;
 
@@ -87,14 +88,27 @@
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
             array_of_objects.push(p);
         }
+
+        function create_particle() {
+            let p = new Particle(
+                Number(document.getElementById("input_init_x").value),
+                Number(document.getElementById("input_init_y").value),
+                Number(document.getElementById("input_init_velocity").value),
+                Number(document.getElementById("input_init_q").value),
+                Number(document.getElementById("input_init_x_dir").value),
+                Number(document.getElementById("input_init_y_dir").value),
+                Number(document.getElementById("input_init_m").value)
+            );
+
+            p.Velocity_Vector.normalize();
+            array_of_objects.push(p);
+
+        }
         
         function calculate_all_next_step() {
-            // ToDO:
-            let time = 1;
-            // ToDO:
-            let e_field = 0.1;
-            // ToDO: Can be false --> take from form
-            let vector_e_dir_down = true;
+            let time = Number(document.getElementById("input_time_multiplier").value);
+            let e_field = Number(document.getElementById("input_init_e_field").value);
+            let vector_e_dir_down = document.getElementById("input_init_e_field_dir").checked;
 
             for (let i = 0; i < array_of_objects.length; i++) {
                 array_of_objects[i].next_step(e_field, vector_e_dir_down, time);
@@ -128,6 +142,8 @@
             document.getElementById("input_init_e_field").value = 1;
             document.getElementById("input_init_e_field_dir").checked = true;
             document.getElementById("input_time_multiplier").value = 1;
+            document.getElementById("input_init_q").value = 0;
+            document.getElementById("input_init_m").value = 1;
         }
 
     </script>
@@ -136,7 +152,9 @@
 <body onload="init()">
     <canvas height='200' width='800' id='canvas_id'>Обновите браузер</canvas>
     <br>
-    <button onclick="create_particle_and_animate(4, 1, -0.2)">Добавить объект</button>
+    <button onclick="create_particle()">Добавить объект</button>
+    <!-- ToDO: debug -->
+    <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button>
     <br>
     <br>
 
@@ -161,6 +179,26 @@
             </td>
             <td>
                 <input type="number" id="input_init_y" min="0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_q">
+                    Коэффициент заряда q:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_q" value="0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_m">
+                    Коэффициент массы m:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_m" value="1" min="0.001">
             </td>
         </tr>
         <tr>
