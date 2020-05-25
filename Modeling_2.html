@@ -72,11 +72,11 @@
         }
 
         // ToDO: поле направлено вертикально
-        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 0) {
+        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 0, init_x = 0, init_y = canvas.height / 2) {
             // ToDO:
             let q = 1;
 
-            let p = new Particle(0, canvas.height / 2, vel, q, 1, 0, 1);
+            let p = new Particle(init_x, init_y, vel, q, 1, 0, 1);
 
             // ToDO: добавить массу
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
