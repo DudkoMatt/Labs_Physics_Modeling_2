@@ -14,6 +14,7 @@
     <script src="Particle.js"></script>
     <script type="text/javascript">
         let canvas, ctx;
+        let raf_id;
 
         // Note: ось y направлена вниз в canvas
         let init_coordinate_x, init_coordinate_y;
@@ -27,7 +28,7 @@
             ctx    = canvas.getContext('2d');
             init_coordinate_x = SPACER;
             init_coordinate_y = canvas.height - SPACER;
-            redraw_window_function();
+            raf_id = window.requestAnimationFrame(redraw_window_function);
         }
 
         // function draw_axis() {
@@ -70,11 +71,13 @@
             }
         }
 
-        function add_new_object() {
-            array_of_objects.push(new Particle(getRandomInt(canvas.width), getRandomInt(canvas.height)));
-            redraw_window_function();
-        }
+        // function add_new_object() {
+        //     array_of_objects.push(new Particle(getRandomInt(canvas.width), getRandomInt(canvas.height)));
+        //     redraw_window_function();
+        // }
 
+
+        // ToDO: поле направлено вертикально
         function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 1) {
             // Переменная для ограничения максимально возможного рендеринга
             let t = 0;
@@ -82,32 +85,46 @@
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
             array_of_objects.push(p);
 
-            let raf_id;
-
-            function next_step() {
-                if (t < 10000 && p.in_view()) {
-                    // ToDO: delete debug
-                    console.log(t + ": " + p.in_view());
-                    p.calc_new_pos_without_acceleration(1);
-                    t++;
-                    redraw_window_function();
-                    raf_id = window.requestAnimationFrame(next_step);
-                } else {
-                    // ToDO: delete debug
-                    console.log(t + ": " + p.in_view());
-                    delete_particle_from_array(p.IDX);
-                    window.cancelAnimationFrame(raf_id);
-                }
-            }
-
-            raf_id = window.requestAnimationFrame(next_step);
+            // function next_step() {
+            //     if (t < 10000 && p.in_view()) {
+            //         // ToDO: delete debug
+            //         console.log(t + ": " + p.in_view());
+            //         p.calc_new_pos_without_acceleration(1);
+            //         t++;
+            //     } else {
+            //         // ToDO: delete debug
+            //         console.log(t + ": " + p.in_view());
+            //         delete_particle_from_array(p.IDX);
+            //     }
+            // }
 
         }
         
+        function calculate_all_next_step() {
+            // ToDO:
+            let time = 1;
+
+            for (let i = 0; i < array_of_objects.length; i++) {
+                array_of_objects[i].next_step(time);
+            }
+
+            let items_to_delete = [];
+            for (let i = 0; i < array_of_objects.length; i++) {
+                if (!array_of_objects[i].in_view())
+                    items_to_delete.push(array_of_objects[i].IDX);
+            }
+
+            for (let i = 0; i < items_to_delete.length; i++) {
+                delete_particle_from_array(items_to_delete[i]);
+            }
+        }
+        
         function redraw_window_function() {
+            calculate_all_next_step();
             clear_all();
             draw_area_electric_field();
             redraw_all_objects();
+            window.requestAnimationFrame(redraw_window_function);
         }
 
     </script>
@@ -118,7 +135,7 @@
     <br>
     <!-- <button onclick="draw_circle(getRandomInt(canvas.width), getRandomInt(canvas.height))">Нарисовать рандомный круг</button>
     <button onclick="clear_all()">Очистить</button> -->
-    <button onclick="add_new_object()">Добавить объект</button>
+    <button onclick="create_particle_and_animate()">Добавить объект</button>
     <!-- <button onclick="redraw_all_objects()">Отрисовать</button> -->
 </body>
 </html>

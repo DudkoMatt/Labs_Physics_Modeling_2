@@ -164,7 +164,7 @@ class Particle {
         this.IDX = Particle._idx++;
     }
 
-    // ToDO
+    // ToDO: time
     calc_new_position(e_field, vector_e) {
         // e_field  - напряженность поля
         // vector_e - направление поля
@@ -172,12 +172,24 @@ class Particle {
         if (vector_e.length() - 1.0 < 0.01)
             vector_e.normalize();
 
+        if (this.Q > 0) {
+
+        } else if (this.Q < 0) {
+
+        } else {
+            this.calc_new_pos_without_acceleration();
+        }
     }
 
+    // ToDO: time
     calc_new_pos_without_acceleration(time = 1) {
         this.Velocity_Vector.normalize();
         this.X = this.X + this.Velocity_Vector.x * this.Velocity * time;
         this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time;
+    }
+
+    next_step(time = 1) {
+        this.calc_new_pos_without_acceleration(time);
     }
 
     draw() {
