@@ -71,17 +71,14 @@
             }
         }
 
-        // function add_new_object() {
-        //     array_of_objects.push(new Particle(getRandomInt(canvas.width), getRandomInt(canvas.height)));
-        //     redraw_window_function();
-        // }
-
-
         // ToDO: поле направлено вертикально
-        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 1) {
-            // Переменная для ограничения максимально возможного рендеринга
-            let t = 0;
-            let p = new Particle(1, 2, vel, 0);
+        function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 0) {
+            // ToDO:
+            let q = 1;
+
+            let p = new Particle(0, canvas.height / 2, vel, q, 1, 0, 1);
+
+            // ToDO: добавить массу
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
             array_of_objects.push(p);
         }
@@ -90,7 +87,7 @@
             // ToDO:
             let time = 1;
             // ToDO:
-            let e_field = 0;
+            let e_field = 0.01;
             // ToDO: Can be false --> take from form
             let vector_e_dir_down = true;
 

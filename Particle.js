@@ -154,14 +154,19 @@ class Particle {
     // Заряд
     Q = 0;
 
-    constructor(x=0, y=0, v=1, q=0, vector=new Vector(1, 0)) {
+    // Масса
+    Mass = 9.1E-31;
+
+    constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 9.1E-31) {
         if (v === 0) throw new Error("Particle: Velocity is 0");
         this.X = x;
         this.Y = y;
         this.Velocity = v;
-        this.Velocity_Vector = vector;
+        this.Velocity_Vector = new Vector(vector_x, vector_y);
+        this.Velocity_Vector.normalize();
         this.Q = q;
         this.IDX = Particle._idx++;
+        this.Mass = mass;
     }
 
     // ToDO: time
@@ -172,12 +177,24 @@ class Particle {
         //  true  -> направлено вниз
         //  false -> направлено вверх
 
-        if (this.Q > 0) {
+        // ToDO: подставить
+        // Посчитали вектор силы
+        let vector_force = (new Vector(0, vector_e_dir_down ? 1 : -1)).multiply(e_field).multiply(this.Q);
 
-        } else {
-            // Q < 0
+        // Нашли вектор ускорения
+        let vector_acceleration = Vector.divide(vector_force, this.Mass);
+        let acceleration_module = vector_acceleration.length();
+        vector_acceleration.normalize();
 
-        }
+        // Расчет новой позиции:
+        this.X = this.X + this.Velocity_Vector.x * this.Velocity * time + acceleration_module * vector_acceleration.x * time * time / 2;
+        this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time + acceleration_module * vector_acceleration.y * time * time / 2;
+
+        this.Velocity_Vector.multiply(this.Velocity);
+        this.Velocity_Vector.x += acceleration_module * vector_acceleration.x * time;
+        this.Velocity_Vector.y += acceleration_module * vector_acceleration.y * time;
+        this.Velocity = this.Velocity_Vector.length();
+        this.Velocity_Vector.normalize();
     }
 
     calc_new_pos_without_acceleration(time = 1) {
