@@ -130,6 +130,19 @@ Vector.cross = function(a, b) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+class Point {
+    X = 0;
+    Y = 0;
+
+    constructor(x, y) {
+        this.X = x;
+        this.Y = y;
+    }
+
+    inside_rectangle(p1 = new Point(0, 0), p2= new Point(canvas.width - 1, canvas.height - 1)) {
+        return this.X >= p1.X && this.X <= p2.X && this.Y >= p1.Y && this.Y <= p2.Y;
+    }
+}
 
 
 class Particle {
@@ -154,10 +167,10 @@ class Particle {
     // Заряд
     Q = 0;
 
-    // Масса
-    Mass = 9.1E-31;
+    // Масса == коэффициент перед 9.1E-31
+    Mass = 1;
 
-    constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 9.1E-31) {
+    constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 1) {
         if (v === 0) throw new Error("Particle: Velocity is 0");
         this.X = x;
         this.Y = y;
@@ -203,8 +216,13 @@ class Particle {
         this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time;
     }
 
+    in_electric_field() {
+        // ToDO: параметризовать ширину?
+        return (new Point(this.X, this.Y)).inside_rectangle(new Point(canvas.width / 2, 0), new Point(canvas.width, canvas.height));
+    }
+
     next_step(e_field, vector_e_dir_down, time = 1) {
-        if (this.Q === 0) {
+        if (this.Q === 0 || !this.in_electric_field()) {
             this.calc_new_pos_without_acceleration(time);
         } else {
             // Q !== 0
@@ -219,20 +237,6 @@ class Particle {
     }
 
     in_view() {
-        class Point {
-            X = 0;
-            Y = 0;
-
-            constructor(x, y) {
-                this.X = x;
-                this.Y = y;
-            }
-
-            inside_rectangle(p1 = new Point(0, 0), p2= new Point(canvas.width - 1, canvas.height - 1)) {
-                return this.X >= p1.X && this.X <= p2.X && this.Y >= p1.Y && this.Y <= p2.Y;
-            }
-        }
-
         return (new Point(this.X - this.#R, this.Y - this.#R)).inside_rectangle() ||
                (new Point(this.X + this.#R, this.Y - this.#R)).inside_rectangle() ||
                (new Point(this.X - this.#R, this.Y + this.#R)).inside_rectangle() ||

@@ -46,7 +46,7 @@
         }
 
         function delete_particle_from_array(idx) {
-            array_of_objects = array_of_objects.filter(function (value, index, arr) {
+            array_of_objects = array_of_objects.filter(function (value) {
                 return value.IDX !== idx;
             });
         }
@@ -118,8 +118,8 @@
 </head>
 
 <body onload="init()">
-    <canvas height='800' width='800' id='canvas_id'>Обновите браузер</canvas>
+    <canvas height='800' width='1200' id='canvas_id'>Обновите браузер</canvas>
     <br>
-    <button onclick="create_particle_and_animate(9, 1, -2)">Добавить объект</button>
+    <button onclick="create_particle_and_animate(4, 1, -0.2)">Добавить объект</button>
 </body>
 </html>
