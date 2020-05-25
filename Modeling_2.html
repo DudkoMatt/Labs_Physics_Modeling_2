@@ -43,7 +43,13 @@
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
         }
-        
+
+        function delete_particle_from_array(idx) {
+            array_of_objects = array_of_objects.filter(function (value, index, arr) {
+                return value.IDX !== idx;
+            });
+        }
+
         function clear_all() {
             ctx.save();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -80,13 +86,16 @@
 
             function next_step() {
                 if (t < 10000 && p.in_view()) {
+                    // ToDO: delete debug
                     console.log(t + ": " + p.in_view());
                     p.calc_new_pos_without_acceleration(1);
                     t++;
                     redraw_window_function();
                     raf_id = window.requestAnimationFrame(next_step);
                 } else {
+                    // ToDO: delete debug
                     console.log(t + ": " + p.in_view());
+                    delete_particle_from_array(p.IDX);
                     window.cancelAnimationFrame(raf_id);
                 }
             }
