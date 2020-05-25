@@ -29,6 +29,11 @@
             init_coordinate_x = SPACER;
             init_coordinate_y = canvas.height - SPACER;
             raf_id = window.requestAnimationFrame(redraw_window_function);
+
+            document.getElementById("input_init_x").max = canvas.width;
+            document.getElementById("input_init_x").value = 0;
+            document.getElementById("input_init_y").max = canvas.height;
+            document.getElementById("input_init_y").value = canvas.height / 2;
         }
 
         // function draw_axis() {
@@ -114,12 +119,124 @@
             window.requestAnimationFrame(redraw_window_function);
         }
 
+        function reset_to_defaults() {
+            document.getElementById("input_init_x").value = 0;
+            document.getElementById("input_init_y").value = canvas.height / 2;
+            document.getElementById("input_init_velocity").value = 1;
+            document.getElementById("input_init_x_dir").value = 1;
+            document.getElementById("input_init_y_dir").value = 0;
+            document.getElementById("input_init_e_field").value = 1;
+            document.getElementById("input_init_e_field_dir").checked = true;
+            document.getElementById("input_time_multiplier").value = 1;
+        }
+
     </script>
 </head>
 
 <body onload="init()">
-    <canvas height='800' width='1200' id='canvas_id'>Обновите браузер</canvas>
+    <canvas height='200' width='800' id='canvas_id'>Обновите браузер</canvas>
     <br>
     <button onclick="create_particle_and_animate(4, 1, -0.2)">Добавить объект</button>
+    <br>
+    <br>
+
+    <table>
+        <tr>
+            <td>
+                <label for="input_init_x">
+                    Начальная координата X:
+                </label>
+            </td>
+            <td>
+                <!-- Set maximum is in init() -->
+                <input type="number" id="input_init_x" min="0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- Set maximum is in init() -->
+                <label for="input_init_y">
+                    Начальная координата Y:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_y" min="0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_velocity">
+                    Начальная скорость V<sub>0</sub>:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_velocity" min="0" value="1">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_x_dir">
+                    Координата X вектора направления скорости:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_x_dir" value="1">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_y_dir">
+                    Координата Y вектора направления скорости:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_y_dir" value="0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_e_field">
+                    Напряженность поля:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_init_e_field" min="1" max="100" value="1">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_e_field_dir">
+                    Поле направлено вниз?
+                </label>
+            </td>
+            <td>
+                <input type="checkbox" id="input_init_e_field_dir" checked>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_time_multiplier">
+                    Коэффициент ускорения времени:
+                </label>
+            </td>
+            <td>
+                <input type="number" id="input_time_multiplier" min="0" max="5" step="0.01" value="1">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="reset_to_defaults()">Сбросить</button>
+            </td>
+        </tr>
+    </table>
+
+    <!--
+    <div>
+        <label>
+            Текст:<input type="range">
+        </label>
+    </div>
+    -->
+
 </body>
 </html>
