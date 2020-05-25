@@ -165,31 +165,34 @@ class Particle {
     }
 
     // ToDO: time
-    calc_new_position(e_field, vector_e) {
+    calc_new_position_with_acceleration(e_field, vector_e_dir_down = true, time = 1) {
         // e_field  - напряженность поля
-        // vector_e - направление поля
 
-        if (vector_e.length() - 1.0 < 0.01)
-            vector_e.normalize();
+        // vector_e - направление поля
+        //  true  -> направлено вниз
+        //  false -> направлено вверх
 
         if (this.Q > 0) {
 
-        } else if (this.Q < 0) {
-
         } else {
-            this.calc_new_pos_without_acceleration();
+            // Q < 0
+
         }
     }
 
-    // ToDO: time
     calc_new_pos_without_acceleration(time = 1) {
         this.Velocity_Vector.normalize();
         this.X = this.X + this.Velocity_Vector.x * this.Velocity * time;
         this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time;
     }
 
-    next_step(time = 1) {
-        this.calc_new_pos_without_acceleration(time);
+    next_step(e_field, vector_e_dir_down, time = 1) {
+        if (this.Q === 0) {
+            this.calc_new_pos_without_acceleration(time);
+        } else {
+            // Q !== 0
+            this.calc_new_position_with_acceleration(e_field, vector_e_dir_down, time);
+        }
     }
 
     draw() {

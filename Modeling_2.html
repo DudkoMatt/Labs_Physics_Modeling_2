@@ -81,31 +81,21 @@
         function create_particle_and_animate(vel = 1, x_dir = 1, y_dir = 1) {
             // Переменная для ограничения максимально возможного рендеринга
             let t = 0;
-            let p = new Particle(1, 2, vel, 4);
+            let p = new Particle(1, 2, vel, 0);
             p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
             array_of_objects.push(p);
-
-            // function next_step() {
-            //     if (t < 10000 && p.in_view()) {
-            //         // ToDO: delete debug
-            //         console.log(t + ": " + p.in_view());
-            //         p.calc_new_pos_without_acceleration(1);
-            //         t++;
-            //     } else {
-            //         // ToDO: delete debug
-            //         console.log(t + ": " + p.in_view());
-            //         delete_particle_from_array(p.IDX);
-            //     }
-            // }
-
         }
         
         function calculate_all_next_step() {
             // ToDO:
             let time = 1;
+            // ToDO:
+            let e_field = 0;
+            // ToDO: Can be false --> take from form
+            let vector_e_dir_down = true;
 
             for (let i = 0; i < array_of_objects.length; i++) {
-                array_of_objects[i].next_step(time);
+                array_of_objects[i].next_step(e_field, vector_e_dir_down, time);
             }
 
             let items_to_delete = [];
