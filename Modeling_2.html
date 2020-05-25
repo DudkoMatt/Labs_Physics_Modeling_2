@@ -1,0 +1,118 @@
+<!-- 2.	Движение заряженных частиц в электростатическом поле -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Моделирование №2</title>
+    <meta charset='utf-8' />
+
+    <style>
+        canvas {
+            border-style: solid;
+        }
+    </style>
+
+    <script src="Particle.js"></script>
+    <script type="text/javascript">
+        let canvas, ctx;
+        let raf;
+
+        // Note: ось y направлена вниз в canvas
+        let init_coordinate_x, init_coordinate_y;
+        const SPACER = 20;
+
+        let array_of_objects = [];
+
+        function init() {
+            // Инициализация canvas
+            canvas = document.getElementById("canvas_id");
+            ctx    = canvas.getContext('2d');
+            init_coordinate_x = SPACER;
+            init_coordinate_y = canvas.height - SPACER;
+
+            raf = window.requestAnimationFrame(redraw_window_function);
+        }
+
+        // function draw_axis() {
+        //     // Отрисовка прямых линий
+        //     ctx.beginPath();
+        //     ctx.moveTo(init_coordinate_x, init_coordinate_y);
+        //     ctx.lineTo(canvas.width - SPACER, init_coordinate_y);
+        //     ctx.moveTo(init_coordinate_x, init_coordinate_y);
+        //     ctx.lineTo(init_coordinate_x, SPACER);
+        //     ctx.stroke();
+        // }
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // function draw_circle(x, y) {
+        //     ctx.beginPath();
+        //     ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+        //     ctx.stroke();
+        // }
+
+        // function sleep(delay) {
+        //     let start = new Date().getTime();
+        //     while (new Date().getTime() < start + delay) {}
+        // }
+        
+        function clear_all() {
+            ctx.save();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+        }
+        
+        function redraw_all_objects() {
+            for (let i = 0; i < array_of_objects.length; i++) {
+                array_of_objects[i].draw();
+            }
+        }
+
+        function add_new_object() {
+            array_of_objects.push(new Particle(getRandomInt(canvas.width), getRandomInt(canvas.height)));
+        }
+
+        function create_particle_and_animate(vel = 1) {
+            // ToDO: удалить t
+            let t = 0;
+            let p = new Particle(1, 2, vel, 4);
+            p.Velocity_Vector = (new Vector(1,1)).normalize();
+            array_of_objects.push(p);
+
+            function next_step() {
+                if (t < 1000 && p.in_view()) {
+                    console.log(t + ": " + p.in_view());
+                    p.calc_new_pos_without_acceleration(1);
+                    t++;
+                    clear_all();
+                    redraw_all_objects();
+
+                    window.requestAnimationFrame(next_step);
+                } else {
+                    console.log(t + ": " + p.in_view());
+                }
+            }
+
+            window.requestAnimationFrame(next_step);
+
+        }
+        
+        function redraw_window_function() {
+            clear_all();
+            redraw_all_objects();
+            window.requestAnimationFrame(redraw_window_function);
+        }
+
+    </script>
+</head>
+
+<body onload="init()">
+    <canvas height='800' width='800' id='canvas_id'>Обновите браузер</canvas>
+    <br>
+    <!-- <button onclick="draw_circle(getRandomInt(canvas.width), getRandomInt(canvas.height))">Нарисовать рандомный круг</button>
+    <button onclick="clear_all()">Очистить</button> -->
+    <button onclick="add_new_object()">Добавить объект</button>
+    <!-- <button onclick="redraw_all_objects()">Отрисовать</button> -->
+</body>
+</html>
