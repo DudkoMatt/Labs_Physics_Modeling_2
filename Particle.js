@@ -127,7 +127,6 @@ Vector.cross = function(a, b) {
 };
 
 
-
 // ---------------------------------------------------------------------------------------------------------------------
 
 class Point {
@@ -237,7 +236,24 @@ class Particle {
         }
     }
 
+    draw_arrow_velocity() {
+
+        let tmp_vector = new Vector(this.Velocity_Vector.x, this.Velocity_Vector.y);
+        tmp_vector.normalize();
+        tmp_vector.multiply(this.Velocity);
+        tmp_vector.multiply(20);
+
+        ctx.save();
+
+        ctx.beginPath();
+        canvas_arrow(ctx, this.X, this.Y, this.X + tmp_vector.x, this.Y + tmp_vector.y);
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
     draw() {
+        this.draw_arrow_velocity();
         ctx.beginPath();
         ctx.arc(this.X, this.Y, this.#R, 0, 2 * Math.PI, true);
         ctx.fill();
