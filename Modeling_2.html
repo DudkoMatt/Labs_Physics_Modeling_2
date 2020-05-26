@@ -152,7 +152,10 @@
         
         function calculate_all_next_step() {
             let time = Number(document.getElementById("input_time_multiplier").value);
-            let e_field = Number(document.getElementById("input_init_e_field").value);
+            let e_field =
+                (document.getElementById("input_init_e_is_on").checked) ?
+                Number(document.getElementById("input_init_e_field").value) : 0;
+
             let vector_e_dir_down = document.getElementById("input_init_e_field_dir").checked;
 
             for (let i = 0; i < array_of_objects.length; i++) {
@@ -241,9 +244,9 @@
         function redraw_window_function() {
             calculate_all_next_step();
             clear_all();
-            draw_area_electric_field();
+            if (document.getElementById("input_init_e_is_on").checked) draw_area_electric_field();
             draw_axis();
-            draw_field_arrows_and_name();
+            if (document.getElementById("input_init_e_is_on").checked) draw_field_arrows_and_name();
             draw_init_state();
             redraw_all_objects();
             window.requestAnimationFrame(redraw_window_function);
@@ -260,6 +263,7 @@
             document.getElementById("input_time_multiplier").value = 1;
             document.getElementById("input_init_q").value = 0;
             document.getElementById("input_init_m").value = 1;
+            document.getElementById("input_init_e_is_on").checked = true;
         }
 
         let auto_handler;
@@ -386,6 +390,16 @@
             </td>
             <td>
                 <input type="checkbox" id="input_init_e_field_dir" checked>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="input_init_e_is_on">
+                    Поле включено?
+                </label>
+            </td>
+            <td>
+                <input type="checkbox" id="input_init_e_is_on" checked>
             </td>
         </tr>
         <tr>
