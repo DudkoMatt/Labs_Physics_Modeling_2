@@ -171,7 +171,7 @@ class Particle {
     Mass = 1;
 
     constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 1) {
-        if (v === 0) throw new Error("Particle: Velocity is 0");
+        if (v < 0) throw new Error("Particle: Velocity is negative");
         this.X = x;
         this.Y = y;
         this.Velocity = v;
