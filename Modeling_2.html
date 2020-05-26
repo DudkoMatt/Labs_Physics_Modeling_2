@@ -146,13 +146,34 @@
             document.getElementById("input_init_m").value = 1;
         }
 
+        let auto_handler;
+        function auto_shoot() {
+            let btn = document.getElementById("button_auto_shoot");
+            console.log(btn.innerText);
+            if (btn.innerText === "Auto shoot: OFF") {
+                document.getElementById("button_auto_shoot").innerText = "Auto shoot: ON";
+                auto_handler = setInterval(function () {
+                    create_particle();
+                }, 1000);
+            } else {
+                clearInterval(auto_handler);
+                document.getElementById("button_auto_shoot").innerText = "Auto shoot: OFF";
+            }
+        }
+
+        function remove_all_objects() {
+            array_of_objects = [];
+        }
+
     </script>
 </head>
 
 <body onload="init()">
-    <canvas height='200' width='800' id='canvas_id'>Обновите браузер</canvas>
+    <canvas height='600' width='800' id='canvas_id'>Обновите браузер</canvas>
     <br>
     <button onclick="create_particle()">Добавить объект</button>
+    <button onclick="auto_shoot()" id="button_auto_shoot">Auto shoot: OFF</button>
+    <button onclick="remove_all_objects()">Очистить всё</button>
     <!-- ToDO: debug -->
     <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button>
     <br>
@@ -267,14 +288,6 @@
             </td>
         </tr>
     </table>
-
-    <!--
-    <div>
-        <label>
-            Текст:<input type="range">
-        </label>
-    </div>
-    -->
 
 </body>
 </html>
