@@ -35,7 +35,7 @@
             raf_id = window.requestAnimationFrame(redraw_window_function);
 
             document.getElementById("input_init_x").max = canvas.width;
-            document.getElementById("input_init_x").value = 0;
+            document.getElementById("input_init_x").value = canvas.width / 4;
             document.getElementById("input_init_y").max = canvas.height;
             document.getElementById("input_init_y").value = canvas.height / 2;
 
@@ -192,7 +192,7 @@
         }
 
         function reset_to_defaults() {
-            document.getElementById("input_init_x").value = 0;
+            document.getElementById("input_init_x").value = canvas.width / 4;
             document.getElementById("input_init_y").value = canvas.height / 2;
             document.getElementById("input_init_velocity").value = 1;
             document.getElementById("input_init_x_dir").value = 1;
