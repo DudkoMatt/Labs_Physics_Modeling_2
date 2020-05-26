@@ -22,29 +22,74 @@
 
         let array_of_objects = [];
 
+        // ToDO: changeable field width
+        let field_p1;
+        let field_p2;
+
         function init() {
             // Инициализация canvas
             canvas = document.getElementById("canvas_id");
             ctx    = canvas.getContext('2d');
             init_coordinate_x = SPACER;
-            init_coordinate_y = canvas.height - SPACER;
+            init_coordinate_y = SPACER;
             raf_id = window.requestAnimationFrame(redraw_window_function);
 
             document.getElementById("input_init_x").max = canvas.width;
             document.getElementById("input_init_x").value = 0;
             document.getElementById("input_init_y").max = canvas.height;
             document.getElementById("input_init_y").value = canvas.height / 2;
+
+            field_p1 = new Point(canvas.width / 2, 0);
+            field_p2 = new Point(canvas.width, canvas.height);
         }
 
-        // function draw_axis() {
-        //     // Отрисовка прямых линий
-        //     ctx.beginPath();
-        //     ctx.moveTo(init_coordinate_x, init_coordinate_y);
-        //     ctx.lineTo(canvas.width - SPACER, init_coordinate_y);
-        //     ctx.moveTo(init_coordinate_x, init_coordinate_y);
-        //     ctx.lineTo(init_coordinate_x, SPACER);
-        //     ctx.stroke();
-        // }
+        function draw_axis() {
+            ctx.save();
+
+            // Угол под которым будут направлены линии стрелок
+            let delta_a = 10;
+            let delta_b = 30;
+
+
+            // Отрисовка прямых линий
+            ctx.beginPath();
+
+            // Ось X
+            ctx.moveTo(init_coordinate_x, init_coordinate_y);
+            ctx.lineTo(canvas.width - SPACER, init_coordinate_y);
+
+            // Стрелки
+            ctx.lineTo(canvas.width - SPACER - delta_b, init_coordinate_y - delta_a);
+            ctx.moveTo(canvas.width - SPACER, init_coordinate_y);
+            ctx.lineTo(canvas.width - SPACER - delta_b, init_coordinate_y + delta_a);
+            ctx.moveTo(canvas.width - SPACER, init_coordinate_y);
+
+            // Название
+            ctx.save();
+            ctx.font = '20px serif';
+            ctx.fillText("X", canvas.width - SPACER, init_coordinate_y + 20);
+            ctx.restore();
+
+            // Ось Y
+            ctx.moveTo(init_coordinate_x, init_coordinate_y);
+            ctx.lineTo(init_coordinate_x, canvas.height - SPACER);
+
+            // Стрелки
+            ctx.lineTo(init_coordinate_x + delta_a, canvas.height - SPACER - delta_b);
+            ctx.moveTo(init_coordinate_x, canvas.height - SPACER);
+            ctx.lineTo(init_coordinate_x - delta_a, canvas.height - SPACER - delta_b);
+            ctx.moveTo(init_coordinate_x, canvas.height - SPACER);
+
+            // Название
+            ctx.save();
+            ctx.font = '20px serif';
+            ctx.fillText("Y", SPACER + 10, canvas.height - SPACER + 10);
+            ctx.restore();
+
+            ctx.stroke();
+
+            ctx.restore();
+        }
 
         function getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
@@ -129,6 +174,7 @@
             calculate_all_next_step();
             clear_all();
             draw_area_electric_field();
+            draw_axis();
             redraw_all_objects();
             window.requestAnimationFrame(redraw_window_function);
         }
