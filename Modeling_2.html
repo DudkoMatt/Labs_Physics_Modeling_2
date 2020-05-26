@@ -261,16 +261,50 @@
                 document.getElementById("output_q").innerText = "[Q]";
                 document.getElementById("output_m").innerText = "[M]";
                 document.getElementById("output_f").innerText = "[F]";
+
+                document.getElementById("output_v_x").innerHTML = "[V<sub>X</sub>]";
+                document.getElementById("output_v_y").innerHTML = "[V<sub>Y</sub>]";
+
+                document.getElementById("output_a_x").innerHTML = "[A<sub>X</sub>]";
+                document.getElementById("output_a_y").innerHTML = "[A<sub>Y</sub>]";
+
+                document.getElementById("output_f_x").innerHTML = "[F<sub>X</sub>]";
+                document.getElementById("output_f_y").innerHTML = "[F<sub>Y</sub>]";
             } else {
                 let selected_particle = find_selected_particle(selected_element);
                 if (selected_particle !== undefined) {
-                    document.getElementById("output_x").innerText = selected_particle.X;
-                    document.getElementById("output_y").innerText = selected_particle.Y;
-                    document.getElementById("output_v").innerText = selected_particle.Velocity;
-                    document.getElementById("output_a").innerText = "[A]...";
-                    document.getElementById("output_q").innerText = "[Q]...";
-                    document.getElementById("output_m").innerText = "[M]...";
-                    document.getElementById("output_f").innerText = "[F]...";
+                    document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5);
+                    document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5);
+                    document.getElementById("output_v").innerText = (selected_particle.Velocity).toFixed(5);
+
+                    let vector_e_dir_down = true;
+                    let e_field = 0;
+                    let vector_force = new Vector(0, 0);
+                    let vector_acceleration = new Vector(0, 0);
+                    let acceleration_module = 0;
+
+                    if (selected_particle.in_electric_field()) {
+                        vector_e_dir_down = document.getElementById("input_init_e_field_dir").checked;
+                        e_field = document.getElementById("input_init_e_field").value;
+                        vector_force = (new Vector(0, vector_e_dir_down ? 1 : -1)).multiply(e_field).multiply(selected_particle.Q);
+                        vector_acceleration = Vector.divide(vector_force, selected_particle.Mass);
+                        acceleration_module = vector_acceleration.length();
+                    }
+
+                    document.getElementById("output_a").innerText = acceleration_module.toFixed(5);
+                    document.getElementById("output_q").innerText = (selected_particle.Q).toFixed(5);
+                    document.getElementById("output_m").innerText = (selected_particle.Mass).toFixed(5);
+                    document.getElementById("output_f").innerText = (vector_force.length()).toFixed(5);
+
+                    // Проекции
+                    document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toFixed(5);
+                    document.getElementById("output_v_y").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.y).toFixed(5);
+
+                    document.getElementById("output_a_x").innerText = vector_acceleration.x;
+                    document.getElementById("output_a_y").innerText = vector_acceleration.y;
+
+                    document.getElementById("output_f_x").innerText = vector_force.x;
+                    document.getElementById("output_f_y").innerText = vector_force.y;
                 }
             }
         }
@@ -333,7 +367,7 @@
             <td align="left" valign="top">
                 <span style="color: black; font-family: Times New Roman,serif; font-size: 12pt">
                 <table>
-                    <tr>Current point data:</tr>
+                    <tr><b><u>Данные выбранной точки:</u></b></tr>
                     <tr>
                         <td>
                             X:
@@ -356,7 +390,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Velocity:
+                            Модуль Скорости:
                         </td>
                         <td>
                             <output id="output_v">
@@ -366,7 +400,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Acceleration:
+                            Модуль Ускорения:
                         </td>
                         <td>
                             <output id="output_a">
@@ -386,7 +420,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Mass:
+                            Масса:
                         </td>
                         <td>
                             <output id="output_m">
@@ -396,11 +430,79 @@
                     </tr>
                     <tr>
                         <td>
-                            Force:
+                            Модуль Силы:
                         </td>
                         <td>
                             <output id="output_f">
                                 [F]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <br>
+                            <b><u>
+                                Проекции:
+                            </u></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Скорость<sub>X</sub>:
+                        </td>
+                        <td>
+                            <output id="output_v_x">
+                                [V<sub>X</sub>]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Скорость<sub>Y</sub>:
+                        </td>
+                        <td>
+                            <output id="output_v_y">
+                                [V<sub>Y</sub>]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ускорение<sub>X</sub>:
+                        </td>
+                        <td>
+                            <output id="output_a_x">
+                                [A<sub>X</sub>]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ускорение<sub>Y</sub>:
+                        </td>
+                        <td>
+                            <output id="output_a_y">
+                                [A<sub>Y</sub>]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Сила<sub>X</sub>:
+                        </td>
+                        <td>
+                            <output id="output_f_x">
+                                [F<sub>X</sub>]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Сила<sub>Y</sub>:
+                        </td>
+                        <td>
+                            <output id="output_f_y">
+                                [F<sub>Y</sub>]
                             </output>
                         </td>
                     </tr>
@@ -552,9 +654,6 @@
 
 <!-- ToDO:
 - Мышь
-- Оси
-- Проверить то, что правильно направлено ускорение вдоль оси
-- Отрисовать стрелки у скорости и силы
-- Отрисовывать начальное начальное положение
+- Сделать корректные размерности
 - Явным образом написать ограничения для входных данных + сделать нормальное ограничение
 -->
