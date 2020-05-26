@@ -208,12 +208,42 @@
 
             ctx.restore();
         }
+
+        function draw_field_arrows_and_name() {
+            ctx.save();
+
+            ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";
+
+            // Нарисуем только 4 прямые
+            let k = 4;
+            let curr_x = canvas.width / 2;
+            let delta = (canvas.width / 2) / (k + 1);
+
+            // Будем использовать SPACER * 2 для y
+
+            for (let i = 1; i <= k; ++i) {
+                ctx.beginPath();
+                canvas_arrow(ctx, curr_x + i * delta,
+                    document.getElementById("input_init_e_field_dir").checked ? SPACER * 2 : canvas.height - SPACER * 2,
+                    curr_x + i * delta,
+                    document.getElementById("input_init_e_field_dir").checked ? canvas.height - SPACER * 2 : SPACER * 2
+                );
+                ctx.stroke();
+            }
+
+            ctx.save();
+            ctx.font = '20px serif';
+            ctx.fillText("E = const", canvas.width / 2 + 5, canvas.height - 5);
+            ctx.restore();
+            ctx.restore();
+        }
         
         function redraw_window_function() {
             calculate_all_next_step();
             clear_all();
             draw_area_electric_field();
             draw_axis();
+            draw_field_arrows_and_name();
             draw_init_state();
             redraw_all_objects();
             window.requestAnimationFrame(redraw_window_function);
