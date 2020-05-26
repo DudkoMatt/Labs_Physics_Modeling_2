@@ -88,11 +88,6 @@
             ctx.restore();
         }
 
-        // ToDO: remove
-        // function getRandomInt(max) {
-        //     return Math.floor(Math.random() * Math.floor(max));
-        // }
-
         function delete_particle_from_array(idx) {
             array_of_objects = array_of_objects.filter(function (value) {
                 return value.IDX !== idx;
@@ -506,17 +501,6 @@
                             </output>
                         </td>
                     </tr>
-
-                    <!-- ToDO: remove
-
-                    <tr>
-                        <td>
-                            Some
-                        </td>
-                    </tr>
-
-                    -->
-
                 </table>
                 </span>
             </td>
@@ -526,7 +510,7 @@
     <button onclick="auto_shoot()" id="button_auto_shoot">Auto shoot: OFF</button>
     <button onclick="remove_all_objects()">Очистить всё</button>
     <!-- ToDO: debug -->
-    <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button>
+    <!-- <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button> -->
     <br>
 
     <table style="margin-top: 5px">
