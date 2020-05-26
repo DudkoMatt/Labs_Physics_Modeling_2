@@ -1,3 +1,14 @@
 canvas {
     border-style: solid;
 }
+
+/* class raz --> hide buttons in input fields
+
+.raz {
+    -moz-appearance: textfield;
+}
+.raz::-webkit-inner-spin-button {
+    display: none;
+}
+
+ */
