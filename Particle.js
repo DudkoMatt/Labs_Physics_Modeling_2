@@ -175,8 +175,12 @@ class Particle {
         this.X = x;
         this.Y = y;
         this.Velocity = v;
-        this.Velocity_Vector = new Vector(vector_x, vector_y);
-        this.Velocity_Vector.normalize();
+        if (v === 0) {
+            this.Velocity_Vector = new Vector(0, 0);
+        } else {
+            this.Velocity_Vector = new Vector(vector_x, vector_y);
+            this.Velocity_Vector.normalize();
+        }
         this.Q = q;
         this.IDX = Particle._idx++;
         this.Mass = mass;
