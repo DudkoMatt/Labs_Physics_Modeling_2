@@ -170,11 +170,23 @@
             }
         }
         
+        function draw_init_state() {
+            ctx.beginPath();
+            ctx.arc(
+                parseInt(document.getElementById("input_init_x").value),
+                parseInt(document.getElementById("input_init_y").value),
+                Particle.R_,
+                0, 2 * Math.PI, true
+            );
+            ctx.stroke();
+        }
+        
         function redraw_window_function() {
             calculate_all_next_step();
             clear_all();
             draw_area_electric_field();
             draw_axis();
+            draw_init_state();
             redraw_all_objects();
             window.requestAnimationFrame(redraw_window_function);
         }
