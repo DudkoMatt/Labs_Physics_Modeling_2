@@ -283,7 +283,7 @@
                     let vector_acceleration = new Vector(0, 0);
                     let acceleration_module = 0;
 
-                    if (selected_particle.in_electric_field()) {
+                    if (selected_particle.in_electric_field() && document.getElementById("input_init_e_is_on").checked) {
                         vector_e_dir_down = document.getElementById("input_init_e_field_dir").checked;
                         e_field = document.getElementById("input_init_e_field").value;
                         vector_force = (new Vector(0, vector_e_dir_down ? 1 : -1)).multiply(e_field).multiply(selected_particle.Q);
