@@ -172,7 +172,7 @@ class Particle {
     // Масса == коэффициент перед 9.1E-31
     Mass = 1;
 
-    constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 1) {
+    constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 1, need_to_count = true) {
         if (v < 0) throw new Error("Particle: Velocity is negative");
         this.X = x;
         this.Y = y;
@@ -184,7 +184,9 @@ class Particle {
             this.Velocity_Vector.normalize();
         }
         this.Q = q;
-        this.IDX = Particle._idx++;
+        this.IDX = Particle._idx;
+        if (need_to_count)
+            Particle._idx++;
         this.Mass = mass;
     }
 
@@ -253,10 +255,18 @@ class Particle {
     }
 
     draw() {
+        ctx.save();
+
         this.draw_arrow_velocity();
         ctx.beginPath();
         ctx.arc(this.X, this.Y, this.#R, 0, 2 * Math.PI, true);
+
+        if (selected_element === this.IDX) {
+            ctx.fillStyle = "rgb(255,0,0)";
+        }
+
         ctx.fill();
+        ctx.restore();
     }
 
     in_view() {
