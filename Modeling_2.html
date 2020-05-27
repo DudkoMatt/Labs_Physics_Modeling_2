@@ -148,7 +148,7 @@
         }
         
         function calculate_all_next_step() {
-            let time = Number(document.getElementById("input_time_multiplier").value);
+            let time = Number(document.getElementById("input_time_multiplier").value) / 60;
             let e_field =
                 (document.getElementById("input_init_e_is_on").checked) ?
                 Number(document.getElementById("input_init_e_field").value) : 0;
@@ -716,6 +716,7 @@
 
 -- Дополнительно можно сделать:
 --- Не будет реализовано в версии 1
+- Время: зависит от количества fps на экране
 - Мышь
 - Менять направление вектора E поля + размеры
 - Красивые кнопки и поля
