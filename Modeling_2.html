@@ -272,9 +272,9 @@
             } else {
                 let selected_particle = find_selected_particle(selected_element);
                 if (selected_particle !== undefined) {
-                    document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5);
-                    document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5);
-                    document.getElementById("output_v").innerText = (selected_particle.Velocity).toFixed(5);
+                    document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5) + " м";
+                    document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5) + " м";
+                    document.getElementById("output_v").innerText = (selected_particle.Velocity).toFixed(5) + " м/с";
 
                     let vector_e_dir_down = true;
                     let e_field = 0;
@@ -290,20 +290,20 @@
                         acceleration_module = vector_acceleration.length();
                     }
 
-                    document.getElementById("output_a").innerText = acceleration_module.toFixed(5);
-                    document.getElementById("output_q").innerText = (selected_particle.Q).toFixed(5);
-                    document.getElementById("output_m").innerText = (selected_particle.Mass).toFixed(5);
-                    document.getElementById("output_f").innerText = (vector_force.length()).toFixed(5);
+                    document.getElementById("output_a").innerHTML = acceleration_module.toFixed(5) + " м/с<sup>2</sup>";
+                    document.getElementById("output_q").innerText = (selected_particle.Q).toFixed(5) + " Кл";
+                    document.getElementById("output_m").innerText = (selected_particle.Mass).toFixed(5) + " кг";
+                    document.getElementById("output_f").innerText = (vector_force.length()).toFixed(5) + " Н";
 
                     // Проекции
-                    document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toFixed(5);
-                    document.getElementById("output_v_y").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.y).toFixed(5);
+                    document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toFixed(5) + " м/с";
+                    document.getElementById("output_v_y").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.y).toFixed(5) + " м/с";
 
-                    document.getElementById("output_a_x").innerText = vector_acceleration.x;
-                    document.getElementById("output_a_y").innerText = vector_acceleration.y;
+                    document.getElementById("output_a_x").innerHTML = vector_acceleration.x + " м/с<sup>2</sup>";
+                    document.getElementById("output_a_y").innerHTML = vector_acceleration.y + " м/с<sup>2</sup>";
 
-                    document.getElementById("output_f_x").innerText = vector_force.x;
-                    document.getElementById("output_f_y").innerText = vector_force.y;
+                    document.getElementById("output_f_x").innerText = vector_force.x + " Н";
+                    document.getElementById("output_f_y").innerText = vector_force.y + " Н";
                 }
             }
         }
@@ -704,7 +704,8 @@
 </html>
 
 <!-- ToDO:
-- Сделать корректные размерности
+
+- Написать формулы, по которым производятся вычисления
 
 -- Нужно??
 - Сила тяжести???
@@ -720,4 +721,5 @@
 - Мышь
 - Менять направление вектора E поля + размеры
 - Красивые кнопки и поля
+- Нормальный выбор точки
 -->
