@@ -2,6 +2,12 @@ canvas {
     border-style: solid;
 }
 
+p {
+    color: black;
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+}
+
 /* class raz --> hide buttons in input fields
 
 .raz {
