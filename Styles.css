@@ -8,6 +8,11 @@ p {
     font-size: 12pt;
 }
 
+img {
+    max-width: 306px;
+    max-height: 369px;
+}
+
 /* class raz --> hide buttons in input fields
 
 .raz {
