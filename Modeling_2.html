@@ -38,6 +38,10 @@
 
             field_p1 = new Point(canvas.width / 2, 0);
             field_p2 = new Point(canvas.width, canvas.height);
+
+            // Добавление ограничений в текстовые поля
+            document.getElementById("input_init_x_label").innerText += " [0 .. " + canvas.width + "]";
+            document.getElementById("input_init_y_label").innerText += " [0 .. " + canvas.height + "]";
         }
 
         function draw_axis() {
@@ -561,7 +565,7 @@
     <table style="margin-top: 5px">
         <tr>
             <td>
-                <label for="input_init_x">
+                <label for="input_init_x" id="input_init_x_label">
                     Начальная координата X:
                 </label>
             </td>
@@ -573,7 +577,7 @@
         <tr>
             <td>
                 <!-- Set maximum is in init() -->
-                <label for="input_init_y">
+                <label for="input_init_y" id="input_init_y_label">
                     Начальная координата Y:
                 </label>
             </td>
@@ -584,7 +588,7 @@
         <tr>
             <td>
                 <label for="input_init_q">
-                    Коэффициент заряда q:
+                    Коэффициент заряда q: [any]
                 </label>
             </td>
             <td>
@@ -594,7 +598,7 @@
         <tr>
             <td>
                 <label for="input_init_m">
-                    Коэффициент массы m:
+                    Коэффициент массы m: [0.001 .. any]
                 </label>
             </td>
             <td>
@@ -604,7 +608,7 @@
         <tr>
             <td>
                 <label for="input_init_velocity">
-                    Начальная скорость V<sub>0</sub>:
+                    Начальная скорость V<sub>0</sub>: [0 .. any]
                 </label>
             </td>
             <td>
@@ -614,7 +618,7 @@
         <tr>
             <td>
                 <label for="input_init_x_dir">
-                    Координата X вектора направления скорости:
+                    Координата X вектора направления скорости: [any]
                 </label>
             </td>
             <td>
@@ -624,7 +628,7 @@
         <tr>
             <td>
                 <label for="input_init_y_dir">
-                    Координата Y вектора направления скорости:
+                    Координата Y вектора направления скорости: [any]
                 </label>
             </td>
             <td>
@@ -634,7 +638,7 @@
         <tr>
             <td>
                 <label for="input_init_e_field">
-                    Напряженность поля:
+                    Напряженность поля: [0 .. any]
                 </label>
             </td>
             <td>
@@ -664,7 +668,7 @@
         <tr>
             <td>
                 <label for="input_time_multiplier">
-                    Коэффициент ускорения времени:
+                    Коэффициент ускорения времени: [any, в том числе и отрицательный]
                 </label>
             </td>
             <td>
@@ -674,11 +678,11 @@
 
 
         <!-- ToDO: -->
-
+        <!--
         <tr>
             <td>
                 <label for="input_gravity_field_is_on">
-                    Учитывать гравитацию? [ToDO]
+                    <del>Учитывать гравитацию? [ToDO]</del>
                 </label>
             </td>
             <td>
@@ -686,7 +690,7 @@
             </td>
         </tr>
 
-
+        -->
 
 
         <tr>
@@ -700,8 +704,19 @@
 </html>
 
 <!-- ToDO:
-- Мышь
 - Сделать корректные размерности
-- Явным образом написать ограничения для входных данных + сделать нормальное ограничение
+
+-- Нужно??
 - Сила тяжести???
+
+
+-- Как бы написано, но не проверяется при вводе данных
+- Явным образом написать ограничения для входных данных
+- Сделать нормальное ограничение
+
+-- Дополнительно можно сделать:
+--- Не будет реализовано в версии 1
+- Мышь
+- Менять направление вектора E поля + размеры
+- Красивые кнопки и поля
 -->
