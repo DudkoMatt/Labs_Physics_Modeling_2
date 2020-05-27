@@ -169,7 +169,7 @@ class Particle {
     // Заряд
     Q = 0;
 
-    // Масса == коэффициент перед 9.1E-31
+    // Масса
     Mass = 1;
 
     constructor(x=0, y=0, v=1, q=0, vector_x=1, vector_y=0, mass = 1, need_to_count = true) {
