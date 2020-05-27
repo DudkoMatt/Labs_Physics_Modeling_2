@@ -317,6 +317,10 @@
         }
 
         function reset_to_defaults() {
+            if (document.getElementById("button_pause").innerText === "Пауза: ON") {
+                change_pause_state();
+            }
+
             document.getElementById("input_init_x").value = canvas.width / 4;
             document.getElementById("input_init_y").value = canvas.height / 2;
             document.getElementById("input_init_velocity").value = 1;
@@ -333,7 +337,6 @@
         let auto_handler;
         function auto_shoot() {
             let btn = document.getElementById("button_auto_shoot");
-            console.log(btn.innerText);
             if (btn.innerText === "Auto shoot: OFF") {
                 document.getElementById("button_auto_shoot").innerText = "Auto shoot: ON";
                 auto_handler = setInterval(function () {
@@ -348,6 +351,38 @@
         function remove_all_objects() {
             array_of_objects = [];
             selected_element = -1;
+        }
+
+        let prev_state_auto_shoot_is_on = false;
+        let prev_time_multiplier = 0;
+        function change_pause_state() {
+            let btn = document.getElementById("button_pause");
+            if (btn.innerText === "Пауза: OFF") {
+                document.getElementById("button_pause").innerText = "Пауза: OFF";
+                if (document.getElementById("button_auto_shoot").innerText === "Auto shoot: OFF") {
+                    prev_state_auto_shoot_is_on = false;
+                } else {
+                    prev_state_auto_shoot_is_on = true;
+                    auto_shoot();
+                }
+
+                document.getElementById("button_auto_shoot").disabled = true;
+                document.getElementById("button_create_particle").disabled = true;
+                prev_time_multiplier = parseInt(document.getElementById("input_time_multiplier").value);
+                document.getElementById("input_time_multiplier").value = 0;
+                document.getElementById("input_time_multiplier").disabled = true;
+                btn.innerText = "Пауза: ON";
+            } else {
+                document.getElementById("button_auto_shoot").disabled = false;
+                document.getElementById("button_create_particle").disabled = false;
+                document.getElementById("input_time_multiplier").value = prev_time_multiplier;
+                document.getElementById("input_time_multiplier").disabled = false;
+                if (prev_state_auto_shoot_is_on) {
+                    auto_shoot();
+                    prev_state_auto_shoot_is_on = false;
+                }
+                btn.innerText = "Пауза: OFF";
+            }
         }
 
     </script>
@@ -515,9 +550,10 @@
             </td>
         </tr>
     </table>
-    <button onclick="create_particle()">Добавить объект</button>
+    <button onclick="create_particle()" id="button_create_particle">Добавить объект</button>
     <button onclick="auto_shoot()" id="button_auto_shoot">Auto shoot: OFF</button>
     <button onclick="remove_all_objects()">Очистить всё</button>
+    <button onclick="change_pause_state()" id="button_pause">Пауза: OFF</button>
     <!-- ToDO: debug -->
     <!-- <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button> -->
     <br>
@@ -635,6 +671,24 @@
                 <input type="number" id="input_time_multiplier" min="0" max="5" step="0.25" value="1">
             </td>
         </tr>
+
+
+        <!-- ToDO: -->
+
+        <tr>
+            <td>
+                <label for="input_gravity_field_is_on">
+                    Учитывать гравитацию? [ToDO]
+                </label>
+            </td>
+            <td>
+                <input type="checkbox" id="input_gravity_field_is_on" readonly disabled>
+            </td>
+        </tr>
+
+
+
+
         <tr>
             <td>
                 <button onclick="reset_to_defaults()">Сбросить</button>
@@ -649,4 +703,5 @@
 - Мышь
 - Сделать корректные размерности
 - Явным образом написать ограничения для входных данных + сделать нормальное ограничение
+- Сила тяжести???
 -->
