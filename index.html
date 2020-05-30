@@ -142,7 +142,10 @@
 
             p.Velocity_Vector.normalize();
             array_of_objects.push(p);
-            if (selected_element === -1) selected_element = p.IDX;
+            if (selected_element === -1) {
+                time_counter = 0;
+                selected_element = p.IDX;
+            }
         }
         
         function calculate_all_next_step() {
