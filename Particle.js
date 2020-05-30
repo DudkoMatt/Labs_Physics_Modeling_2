@@ -208,8 +208,8 @@ class Particle {
         vector_acceleration.normalize();
 
         // Расчет новой позиции:
-        this.X = this.X + this.Velocity_Vector.x * this.Velocity * time + acceleration_module * vector_acceleration.x * time * time / 2;
-        this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time + acceleration_module * vector_acceleration.y * time * time / 2;
+        this.X = this.X + (this.Velocity_Vector.x * this.Velocity * time + acceleration_module * vector_acceleration.x * time * time / 2) * 1000;
+        this.Y = this.Y + (this.Velocity_Vector.y * this.Velocity * time + acceleration_module * vector_acceleration.y * time * time / 2) * 1000;
 
         this.Velocity_Vector.multiply(this.Velocity);
         this.Velocity_Vector.x += acceleration_module * vector_acceleration.x * time;
@@ -220,8 +220,8 @@ class Particle {
 
     calc_new_pos_without_acceleration(time = 1) {
         this.Velocity_Vector.normalize();
-        this.X = this.X + this.Velocity_Vector.x * this.Velocity * time;
-        this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * time;
+        this.X = this.X + this.Velocity_Vector.x * this.Velocity * 1000 * time;
+        this.Y = this.Y + this.Velocity_Vector.y * this.Velocity * 1000 * time;
     }
 
     in_electric_field() {
@@ -243,7 +243,7 @@ class Particle {
         let tmp_vector = new Vector(this.Velocity_Vector.x, this.Velocity_Vector.y);
         tmp_vector.normalize();
         tmp_vector.multiply(this.Velocity);
-        tmp_vector.multiply(20);
+        tmp_vector.multiply(20 / Math.pow(10, 6));
 
         ctx.save();
 

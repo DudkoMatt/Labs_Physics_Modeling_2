@@ -130,11 +130,11 @@
             let p = new Particle(
                 Number(document.getElementById("input_init_x").value),
                 Number(document.getElementById("input_init_y").value),
-                Number(document.getElementById("input_init_velocity").value),
-                Number(document.getElementById("input_init_q").value),
+                Number(document.getElementById("input_init_velocity").value) * Math.pow(10, 6),
+                Number(document.getElementById("input_init_q").value) * Math.pow(10, -19),
                 Number(document.getElementById("input_init_x_dir").value),
                 Number(document.getElementById("input_init_y_dir").value),
-                Number(document.getElementById("input_init_m").value)
+                Number(document.getElementById("input_init_m").value) * Math.pow(10, -30)
             );
 
             p.Velocity_Vector.normalize();
@@ -143,7 +143,7 @@
         }
         
         function calculate_all_next_step() {
-            let time = Number(document.getElementById("input_time_multiplier").value) > 0 ? Number(document.getElementById("input_time_multiplier").value) / 60 : 0;
+            let time = Number(document.getElementById("input_time_multiplier").value) > 0 ? Number(document.getElementById("input_time_multiplier").value) * Math.pow(10, -10) / 60 : 0;
 
             // Размерность В/м
             let e_field =
@@ -188,7 +188,7 @@
             ctx.moveTo(parseInt(document.getElementById("input_init_x").value), parseInt(document.getElementById("input_init_y").value));
 
             let tmp = new Particle(parseInt(document.getElementById("input_init_x").value), parseInt(document.getElementById("input_init_y").value),
-                parseInt(document.getElementById("input_init_velocity").value), 0,
+                parseInt(document.getElementById("input_init_velocity").value) * Math.pow(10, 6), 0,
                 parseInt(document.getElementById("input_init_x_dir").value),
                 parseInt(document.getElementById("input_init_y_dir").value), 0, false);
 
@@ -273,9 +273,9 @@
 
                 let selected_particle = find_selected_particle(selected_element);
                 if (selected_particle !== undefined) {
-                    document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5) + " м";
-                    document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5) + " м";
-                    document.getElementById("output_v").innerText = (selected_particle.Velocity).toFixed(5) + " м/с";
+                    document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5) + " мм";
+                    document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5) + " мм";
+                    document.getElementById("output_v").innerText = (selected_particle.Velocity).toExponential(5) + " м/с";
 
                     let vector_e_dir_down = true;
                     let e_field = 0;
@@ -291,22 +291,26 @@
                         acceleration_module = vector_acceleration.length();
                     }
 
-                    document.getElementById("output_a").innerHTML = acceleration_module.toFixed(5) + " м/с<sup>2</sup>";
-                    document.getElementById("output_q").innerText = (selected_particle.Q).toFixed(5) + " Кл";
-                    document.getElementById("output_m").innerText = (selected_particle.Mass).toFixed(5) + " кг";
-                    document.getElementById("output_f").innerText = (vector_force.length()).toFixed(5) + " Н";
+                    document.getElementById("output_a").innerHTML = acceleration_module.toExponential(5) + " м/с<sup>2</sup>";
 
-                    document.getElementById("output_e").innerText = e_field + " В/м";
+                    // document.getElementById("output_q").innerHTML = selected_particle.Q + " * 10<sup>-19</sup> Кл";
+                    // document.getElementById("output_m").innerHTML = selected_particle.Mass + " * 10<sup>-30</sup> кг";
+
+                    document.getElementById("output_q").innerHTML = selected_particle.Q.toExponential(5) + " Кл";
+                    document.getElementById("output_m").innerHTML = selected_particle.Mass.toExponential(5) + " кг";
+                    document.getElementById("output_f").innerText = (vector_force.length()).toExponential(5) + " Н";
+
+                    document.getElementById("output_e").innerText = (document.getElementById("input_cond_u").value) * 1000 / Number(document.getElementById("input_cond_d").value).toExponential(5) + " В/м";
 
                     // Проекции
-                    document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toFixed(5) + " м/с";
-                    document.getElementById("output_v_y").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.y).toFixed(5) + " м/с";
+                    document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toExponential(5) + " м/с";
+                    document.getElementById("output_v_y").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.y).toExponential(5) + " м/с";
 
-                    document.getElementById("output_a_x").innerHTML = vector_acceleration.x + " м/с<sup>2</sup>";
-                    document.getElementById("output_a_y").innerHTML = vector_acceleration.y + " м/с<sup>2</sup>";
+                    document.getElementById("output_a_x").innerHTML = vector_acceleration.x.toExponential(5) + " м/с<sup>2</sup>";
+                    document.getElementById("output_a_y").innerHTML = vector_acceleration.y.toExponential(5) + " м/с<sup>2</sup>";
 
-                    document.getElementById("output_f_x").innerText = vector_force.x + " Н";
-                    document.getElementById("output_f_y").innerText = vector_force.y + " Н";
+                    document.getElementById("output_f_x").innerText = vector_force.x.toExponential(5) + " Н";
+                    document.getElementById("output_f_y").innerText = vector_force.y.toExponential(5) + " Н";
                 }
             }
         }
@@ -597,11 +601,11 @@
         <tr>
             <td>
                 <label for="input_cond_d" id="input_cond_d_label">
-                    Расстояние между пластинами d, мм: [0 .. any]
+                    Расстояние между пластинами d, мм: [100 .. 800]
                 </label>
             </td>
             <td>
-                <input type="number" id="input_cond_d" min="0" value="600" onkeyup="update_input_text_fields()">
+                <input type="number" id="input_cond_d" min="100" max="800" value="600" onkeyup="update_input_text_fields()">
             </td>
         </tr>
         <tr><td><br></td></tr>
@@ -655,7 +659,7 @@
         <tr>
             <td>
                 <label for="input_init_velocity">
-                    Начальная скорость V<sub>0</sub>, м/с: [0 .. any]
+                    Начальная скорость V<sub>0</sub> * 10<sup>6</sup>, м/с: [0 .. any]
                 </label>
             </td>
             <td>
