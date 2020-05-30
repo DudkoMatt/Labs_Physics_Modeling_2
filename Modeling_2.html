@@ -17,6 +17,9 @@
         let init_coordinate_x, init_coordinate_y;
         const SPACER = 20;
 
+        // Счетчик времени
+        let time_counter = 0;
+
         let array_of_objects = [];
 
         function init() {
@@ -144,6 +147,7 @@
         
         function calculate_all_next_step() {
             let time = Number(document.getElementById("input_time_multiplier").value) > 0 ? Number(document.getElementById("input_time_multiplier").value) * Math.pow(10, -10) / 60 : 0;
+            time_counter += time;
 
             // Размерность В/м
             let e_field =
@@ -258,6 +262,7 @@
                 document.getElementById("output_m").innerText = "[M]";
                 document.getElementById("output_f").innerText = "[F]";
                 document.getElementById("output_e").innerText = "[E]";
+                document.getElementById("output_t").innerText = "[t]";
 
                 document.getElementById("output_v_x").innerHTML = "[V<sub>X</sub>]";
                 document.getElementById("output_v_y").innerHTML = "[V<sub>Y</sub>]";
@@ -268,14 +273,12 @@
                 document.getElementById("output_f_x").innerHTML = "[F<sub>X</sub>]";
                 document.getElementById("output_f_y").innerHTML = "[F<sub>Y</sub>]";
             } else {
-
-                // ToDO: размерности
-
                 let selected_particle = find_selected_particle(selected_element);
                 if (selected_particle !== undefined) {
                     document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5) + " мм";
                     document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5) + " мм";
                     document.getElementById("output_v").innerText = (selected_particle.Velocity).toExponential(5) + " м/с";
+                    document.getElementById("output_t").innerText = time_counter.toExponential(5) + " с";
 
                     let vector_e_dir_down = true;
                     let e_field = 0;
@@ -300,7 +303,7 @@
                     document.getElementById("output_m").innerHTML = selected_particle.Mass.toExponential(5) + " кг";
                     document.getElementById("output_f").innerText = (vector_force.length()).toExponential(5) + " Н";
 
-                    document.getElementById("output_e").innerText = (document.getElementById("input_cond_u").value) * 1000 / Number(document.getElementById("input_cond_d").value).toExponential(5) + " В/м";
+                    document.getElementById("output_e").innerText = ((document.getElementById("input_cond_u").value) * 1000 / Number(document.getElementById("input_cond_d").value)).toExponential(5) + " В/м";
 
                     // Проекции
                     document.getElementById("output_v_x").innerText = (selected_particle.Velocity * selected_particle.Velocity_Vector.x).toExponential(5) + " м/с";
@@ -500,6 +503,16 @@
                         <td>
                             <output id="output_e">
                                 [E]
+                            </output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Время, прошедшее с начала запуска, с:
+                        </td>
+                        <td>
+                            <output id="output_t">
+                                [t]
                             </output>
                         </td>
                     </tr>
@@ -713,7 +726,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="input_time_multiplier" min="0" max="5" step="0.25" value="1">
+                <input type="number" id="input_time_multiplier" min="0" value="1">
             </td>
         </tr>
         <tr>
@@ -739,16 +752,6 @@
 
 
 <!-- ToDO:
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-- Привести входные данные к виду: ???
--- q * 10 ^ -19 Кл
--- m * 10 ^ -30 Кг
--- + все соответствующие вычисления
-
-+ Ввести данные для конденсатора
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 -- Дополнительно можно сделать:
 --- Не будет реализовано в версии 1
