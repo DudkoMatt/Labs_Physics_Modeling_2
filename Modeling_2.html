@@ -353,6 +353,29 @@
             update_input_text_fields();
         }
 
+        function reset_to_defaults_zero() {
+            if (document.getElementById("button_pause").innerText === "Пауза: ON") {
+                change_pause_state();
+            }
+
+            document.getElementById("input_init_x").value = canvas.width / 4;
+            document.getElementById("input_init_y").value = canvas.height / 2;
+            document.getElementById("input_init_velocity").value = 1;
+            document.getElementById("input_init_x_dir").value = 1;
+            document.getElementById("input_init_y_dir").value = 0;
+
+            document.getElementById("input_init_e_field_dir").checked = true;
+            document.getElementById("input_time_multiplier").value = 1;
+            document.getElementById("input_init_q").value = 0;
+            document.getElementById("input_init_m").value = 1;
+            document.getElementById("input_init_e_is_on").checked = true;
+
+            document.getElementById("input_cond_d").value = 600;
+            document.getElementById("input_cond_u").value = 0;
+
+            update_input_text_fields();
+        }
+
         let auto_handler;
         function auto_shoot() {
             let btn = document.getElementById("button_auto_shoot");
@@ -732,6 +755,7 @@
         <tr>
             <td>
                 <button onclick="reset_to_defaults()">Сбросить</button>
+                <button onclick="reset_to_defaults_zero()">Нулевые значения</button>
             </td>
         </tr>
     </table>
