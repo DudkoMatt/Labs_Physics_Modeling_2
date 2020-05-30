@@ -126,17 +126,6 @@
             }
         }
 
-        // // ToDO: debug. To delete
-        // // Поле направлено только вертикально
-        // function create_particle_and_animate_console(vel = 1, x_dir = 1, y_dir = 0, init_x = 0, init_y = canvas.height / 2) {
-        //     let q = 1;
-        //
-        //     let p = new Particle(init_x, init_y, vel, q, 1, 0, 1);
-        //
-        //     p.Velocity_Vector = (new Vector(x_dir, y_dir)).normalize();
-        //     array_of_objects.push(p);
-        // }
-
         function create_particle() {
             let p = new Particle(
                 Number(document.getElementById("input_init_x").value),
@@ -344,9 +333,6 @@
             document.getElementById("input_init_velocity").value = 1;
             document.getElementById("input_init_x_dir").value = 1;
             document.getElementById("input_init_y_dir").value = 0;
-
-            // ToDO: to remove
-            // document.getElementById("input_init_e_field").value = 0;
 
             document.getElementById("input_init_e_field_dir").checked = true;
             document.getElementById("input_time_multiplier").value = 1;
@@ -590,8 +576,6 @@
     <button onclick="auto_shoot()" id="button_auto_shoot">Auto shoot: OFF</button>
     <button onclick="remove_all_objects()">Очистить всё</button>
     <button onclick="change_pause_state()" id="button_pause">Пауза: OFF</button>
-    <!-- ToDO: debug -->
-    <!-- <button onclick="create_particle_and_animate_console(4, 1, -0.2)">Test</button> -->
     <br>
 
     <table style="margin-top: 5px">
@@ -698,20 +682,6 @@
                 <input type="number" id="input_init_y_dir" value="0">
             </td>
         </tr>
-
-        <!-- ToDO: включить в расчет
-        <tr>
-            <td>
-                <label for="input_init_e_field">
-                    Напряженность поля, В/м: [0 .. any]
-                </label>
-            </td>
-            <td>
-                <input type="number" id="input_init_e_field" min="0" max="100" value="0">
-            </td>
-        </tr>
-        -->
-
         <tr>
             <td>
                 <label for="input_init_e_field_dir">
