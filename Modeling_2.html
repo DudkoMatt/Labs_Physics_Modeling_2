@@ -342,13 +342,13 @@
             document.getElementById("input_init_y_dir").value = 0;
 
             document.getElementById("input_init_e_field_dir").checked = true;
-            document.getElementById("input_time_multiplier").value = 1;
-            document.getElementById("input_init_q").value = 0;
+            document.getElementById("input_time_multiplier").value = 1000;
+            document.getElementById("input_init_q").value = 1;
             document.getElementById("input_init_m").value = 1;
             document.getElementById("input_init_e_is_on").checked = true;
 
             document.getElementById("input_cond_d").value = 600;
-            document.getElementById("input_cond_u").value = 0;
+            document.getElementById("input_cond_u").value = 20;
 
             update_input_text_fields();
         }
@@ -608,7 +608,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="input_cond_u" min="0" value="0">
+                <input type="number" id="input_cond_u" min="0" value="20">
             </td>
         </tr>
         <tr>
@@ -656,7 +656,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="input_init_q" value="0" step="0.1">
+                <input type="number" id="input_init_q" value="1" step="0.1">
             </td>
         </tr>
         <tr>
@@ -726,7 +726,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="input_time_multiplier" min="0" value="1">
+                <input type="number" id="input_time_multiplier" min="0" value="1000">
             </td>
         </tr>
         <tr>
@@ -751,7 +751,7 @@
 </html>
 
 
-<!-- ToDO:
+<!--
 
 -- Дополнительно можно сделать:
 --- Не будет реализовано в версии 1
