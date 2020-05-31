@@ -281,7 +281,7 @@
                     document.getElementById("output_x").innerText = (selected_particle.X).toFixed(5) + " мм";
                     document.getElementById("output_y").innerText = (selected_particle.Y).toFixed(5) + " мм";
                     document.getElementById("output_v").innerText = (selected_particle.Velocity).toExponential(5) + " м/с";
-                    document.getElementById("output_t").innerText = time_counter.toExponential(5) + " с";
+                    document.getElementById("output_t").innerText = time_counter.toFixed(10) + " с";
 
                     let vector_e_dir_down = true;
                     let e_field = 0;
