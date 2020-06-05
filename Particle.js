@@ -190,7 +190,6 @@ class Particle {
         this.Mass = mass;
     }
 
-    // ToDO: time
     calc_new_position_with_acceleration(e_field, vector_e_dir_down = true, time = 1) {
         // e_field  - напряженность поля
 
@@ -198,7 +197,6 @@ class Particle {
         //  true  -> направлено вниз
         //  false -> направлено вверх
 
-        // ToDO: подставить
         // Посчитали вектор силы
         let vector_force = (new Vector(0, vector_e_dir_down ? 1 : -1)).multiply(e_field).multiply(this.Q);
 
